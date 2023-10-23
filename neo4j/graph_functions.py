@@ -21,7 +21,7 @@ class ParamDict(dict):
         for key in self:
             s += "{0}: '{1}', ".format(key, self[key])
         if len(s) > 1:
-            s = s[0: -2]
+            s = s[:-2]
         s += "}"
         return s
 

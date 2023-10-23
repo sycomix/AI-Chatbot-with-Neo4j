@@ -161,32 +161,27 @@ def bow(sentence, words, show_details = False):
 
 def classify_local(sentence):
     ERROR_THRESHOLD = 0.5
-    
+
     # generate probabilities from model
     input_data = pd.DataFrame([bow(sentence, words)], dtype = float,
                               index = ['input'])
     # print([input_data])
-    
+
     results = model.predict([input_data])[0]
     # print(results)
     # filter predictions below a threshold & provide intent index
-    
+
 #     for i, r in enumerate(results):
 #       print(i)
 #       print(r)
 #       print(r > ERROR_THRESHOLD)
 #       print()
-    
+
     results = [[i, r] for i, r in enumerate(results) if r > ERROR_THRESHOLD]
     # sort by strength of probability
     results.sort(key = lambda x: x[1], reverse = True)
-    
-    return_list = []
-    for r in results:
-        # print(r)
-        return_list.append((classes[r[0]], str(r[1])))
-    # return tuple of intent & probability
-    return return_list
+
+    return [(classes[r[0]], str(r[1])) for r in results]
 
 
 intent_list = classify_local("how old is sp")
@@ -198,17 +193,17 @@ from data.cca import cca
 from data.misc import misc
 
 def find_data(intent_list: list):
-    if len(intent_list) < 1:
+    if not intent_list:
         return "Sorry I don't know what you are trying to ask :("
     else:
         user_intent = intent_list[0][0]
-    
-    if user_intent == 'unknown' or user_intent == '':
+
+    if user_intent in ['unknown', '']:
         return "Sorry I don't understand that."
     for intent in intents['intents']:
         if intent['tag'] == user_intent:
             file_name = intent['context']
-    
+
     data_dicts = dict(
         general = general,
         course = course,
@@ -216,15 +211,12 @@ def find_data(intent_list: list):
         misc = misc
     )
     data_dict = data_dicts[file_name]
-    
-    output = data_dict[user_intent]
-    return output
+
+    return data_dict[user_intent]
 
 
 def ask_chatbot(user_input: str):
     intent_list = classify_local(user_input)
-    # user_intent = intent_list[0][0]
-    out = find_data(intent_list)
-    return out
+    return find_data(intent_list)
 
 print(ask_chatbot("are clubs compulsory"))

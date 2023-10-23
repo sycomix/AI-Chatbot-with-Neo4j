@@ -22,7 +22,7 @@ class MainWindow(Screen):
     def btn(self):
         print(self.userInput.text)
         # chatbot output
-        
+
         # add box with user input
         lengthUser = len(self.userInput.text)
         if lengthUser<10:
@@ -41,25 +41,23 @@ class MainWindow(Screen):
                 # layout.add_widget(label)
                 # self.gl.add_widget(layout)
                 if i ==0:
-                    label = Label(text=self.userInput.text[0:10] , size_hint=(None,None), size=(self.width/2, 50) )
-                    # layout = BoxLayout(orientation="horizontal")
-                    layout.add_widget(Label(text="" ) )
-                    layout.add_widget(label)
-                    # self.gl.add_widget(layout)
+                    label = Label(
+                        text=self.userInput.text[:10],
+                        size_hint=(None, None),
+                        size=(self.width / 2, 50),
+                    )
+                                # self.gl.add_widget(layout)
                 elif i==times-1:
                     label = Label(text=self.userInput.text[(times-1)*10+1:-1] , size_hint=(None,None), size=(self.width/2, 50) )
-                    # layout = BoxLayout(orientation="horizontal")
-                    layout.add_widget(Label(text="" ) )
-                    layout.add_widget(label)
-                    # self.gl.add_widget(layout)
+                                # self.gl.add_widget(layout)
                 else:
                     label = Label(text=self.userInput.text[i*10: i*10+10] , size_hint=(None,None), size=(self.width/2, 50) )
-                    # layout = BoxLayout(orientation="horizontal")
-                    layout.add_widget(Label(text="" ) )
-                    layout.add_widget(label)
-                    # self.gl.add_widget(layout)
+                                # self.gl.add_widget(layout)
+                # layout = BoxLayout(orientation="horizontal")
+                layout.add_widget(Label(text="" ) )
+                layout.add_widget(label)
                 self.gl.add_widget(layout)
-        
+
 
         reply = ask_chatbot(self.userInput.text)
 
